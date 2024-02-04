@@ -1,5 +1,6 @@
 package com.example.api.helpers.petstore;
 
+import com.example.api.constants.FilePaths;
 import com.example.api.utils.ConfigManager;
 import com.example.api.constants.EndPoints;
 import com.example.api.model.petstore.Pet;
@@ -12,6 +13,8 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,11 +53,12 @@ public class PetServiceHelpers {
      * @param petId
      * @return response
      */
-    public Response updateExistingPetAttributes(long petId){
-        Pet pet = new Pet();
+    public Response updateExistingPetAttributes(long petId) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        File jsonFile = new File(FilePaths.UPDATE_EXISTING_PET_FILEPATH);
+        Pet pet = mapper.readValue(jsonFile, Pet.class);
         List<Tag> listOfTags = new ArrayList<>();
         Tag tag= new Tag();
-        tag.setId(1l);
         tag.setName("NewTag");
         listOfTags.add(tag);
         pet.setId(petId);

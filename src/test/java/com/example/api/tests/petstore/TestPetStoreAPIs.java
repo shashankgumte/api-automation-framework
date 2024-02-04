@@ -1,6 +1,8 @@
 package com.example.api.tests.petstore;
 
+import com.example.api.constants.Constants;
 import com.example.api.constants.EndPoints;
+import com.example.api.constants.FilePaths;
 import com.example.api.helpers.petstore.PetServiceHelpers;
 import com.example.api.model.petstore.Pet;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,13 +16,14 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
 public class TestPetStoreAPIs {
 
     private PetServiceHelpers petServiceHelpers;
-    private static final String schemaFilePath ="petstore/Response_FindPetByStatus.json";
     @BeforeClass
     public void init(){
         petServiceHelpers = new PetServiceHelpers();
@@ -30,13 +33,13 @@ public class TestPetStoreAPIs {
     @Owner("Shashank")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Integration test to check pet store APIs")
-    public void testGetAllAvailablePets() throws JsonProcessingException {
+    public void testGetAllAvailablePets() throws IOException {
         // Find Pets By Status Available
-        Response findPetsByStatusResponse = petServiceHelpers.findPetsByStatus(EndPoints.AVAILABLE_STATUS);
+        Response findPetsByStatusResponse = petServiceHelpers.findPetsByStatus(Constants.AVAILABLE_STATUS);
         petServiceHelpers.assertStatusCode(findPetsByStatusResponse,HttpStatus.SC_OK);
         Type type = new TypeReference<List<Pet>>(){}.getType();
         List<Pet> petList = findPetsByStatusResponse.as(type);
-        petServiceHelpers.assertResponseBodyMatchesSchema(findPetsByStatusResponse,schemaFilePath);
+        petServiceHelpers.assertResponseBodyMatchesSchema(findPetsByStatusResponse, FilePaths.FIND_PET_BY_STATUS_FILEPATH);
         // Get random pet id from response
         long petID=petServiceHelpers.getRandomPetId(petList);
         System.out.println("random pet id "+ petID);
@@ -53,7 +56,7 @@ public class TestPetStoreAPIs {
         petServiceHelpers.assertAnyFieldInResponse(id,petID);
         petServiceHelpers.assertAnyFieldInResponse(name,"NewPet");
         petServiceHelpers.assertAnyFieldInResponse(tagName,"NewTag");
-        petServiceHelpers.assertAnyFieldInResponse(status,EndPoints.SOLD_STATUS);
+        petServiceHelpers.assertAnyFieldInResponse(status,Constants.SOLD_STATUS);
         // Use get pet by id API
         Response findPetByIdResponse =petServiceHelpers.findPetById(id);
         petServiceHelpers.assertStatusCode(findPetByIdResponse,HttpStatus.SC_OK);
