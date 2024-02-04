@@ -1,0 +1,12 @@
+{
+  "type": "array",
+  "properties": {
+    "id": {},
+    "category": {},
+    "name": {},
+    "photoUrls": {},
+    "tags": {},
+    "status": {}
+  },
+  "required": ["id", "category", "name", "photoUrls", "tags", "status"]
+}
