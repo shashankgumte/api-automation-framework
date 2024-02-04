@@ -64,31 +64,36 @@ Generate Allure reports after test execution.
 * Java Development Kit (JDK): https://www.oracle.com/java/
 
 API_Testing_Framework Tree Structure:
-│
+```│
 ├───src
 │   ├───main
 │   │   └───java
 │   │       └───com
 │   │           └───example
 │   │               └───api
-│   │                   ├───constants
-│   │                   ├───utils
-│   │                   ├───helpers
-│   │                   └───model
-│   │                       ├───Category.java
-│   │                       ├───Pet.java
-│   │                       └───Tag.java
+│   │                   ├───constants {for maintaing constants}
+│   │                   ├───utils {for maintaing utility methods}
+│   │                   ├───helpers {for adding helper methods for APIs}
+│   │                   └───model {pojo for more better assertions}
+│   │                        └───petstore   
+│   │                           ├───Category.java
+│   │                           ├───Pet.java
+│   │                           └───Tag.java
 │   │                    
 │   └───test
 │       ├───java
-│           └───com
-│               └───example
-│                   └───api
-│                       ├───tests
-│                              └───PetStoreAPITests.java
-│       
+│       │    └───com
+│       │        └───example
+│       │            └───api
+│       │               └───tests
+│       │                       └───TestPetStoreAPIs.java {actual test}
+│       │ 
+│       ├───resources
+│              └───petstore
+│                    └───Response_FindPetByStatus  
 ├───resource
-│  ├───config.properties
-├───pom.xml
-├───allure-results
+│   └───config.properties { properties file}
+├───pom.xml 
+├───allure-results { allure reports}
 └───README.md
+```
